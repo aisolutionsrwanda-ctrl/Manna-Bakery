@@ -3,41 +3,255 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manna Bakery</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>UNCLE'S RESTAURANT KITCHEN RECIPE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'brand-cream': '#FDFBF7',
-              'brand-peach': '#FFDAB9',
-              'brand-teal': '#004d40',
-              'brand-dark-teal': '#00382e',
-              'brand-brown': '#4E342E',
-            },
-            fontFamily: {
-              'serif': ['Playfair Display', 'serif'],
-              'sans': ['Lato', 'sans-serif'],
-            }
-          }
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary-color: #ff6b6b;
+        --secondary-color: #4ecdc4;
+        --background-color: #f7f7f7;
+        --text-color: #333;
+        --card-bg-color: #ffffff;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+        --font-body: 'Poppins', sans-serif;
+        --font-heading: 'Playfair Display', serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--font-body);
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .header h1 {
+        font-family: var(--font-heading);
+        font-size: 3rem;
+        color: #5D4037; /* A deep, warm brown for a rustic kitchen feel */
+      }
+
+      .header p {
+        font-size: 1.1rem;
+        color: #666;
+      }
+
+      .form-card {
+        background: var(--card-bg-color);
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px var(--shadow-color);
+        margin-bottom: 2rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-group input[type="text"],
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-family: var(--font-body);
+        transition: border-color 0.3s ease;
+      }
+      
+      .form-group textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+
+      .form-group input[type="text"]:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+
+      .diet-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .diet-options label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+      }
+
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(90deg, var(--primary-color), #ff8e53);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .btn:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+      }
+
+      .output-section {
+        margin-top: 2rem;
+      }
+      
+      .placeholder {
+        text-align: center;
+        padding: 3rem;
+        background: #e9ecef;
+        border-radius: 12px;
+        color: #6c757d;
+      }
+      
+      .loader {
+        text-align: center;
+      }
+
+      .loader p {
+        margin-top: 1rem;
+        font-weight: 600;
+      }
+      
+      .cooking {
+        position: relative;
+        margin: 0 auto;
+        width: 120px;
+        height: 120px;
+        border: 6px solid var(--primary-color);
+        border-radius: 50%;
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
       }
-    </script>
+
+      .error-message {
+        text-align: center;
+        padding: 2rem;
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        border-radius: 8px;
+      }
+
+      .recipe-card {
+        background: var(--card-bg-color);
+        border-radius: 12px;
+        box-shadow: 0 8px 24px var(--shadow-color);
+        overflow: hidden;
+      }
+
+      .recipe-card img {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+      }
+
+      .recipe-content {
+        padding: 2rem;
+      }
+
+      .recipe-content h2 {
+        font-family: var(--font-heading);
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .recipe-content .description {
+        margin-bottom: 2rem;
+        font-style: italic;
+        color: #555;
+      }
+
+      .recipe-details {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 2rem;
+      }
+      
+      .recipe-details h3 {
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+      }
+      
+      .recipe-details ul, .recipe-details ol {
+        padding-left: 1.2rem;
+      }
+      
+      .recipe-details li {
+        margin-bottom: 0.5rem;
+      }
+      
+      @media (max-width: 768px) {
+        .recipe-details {
+          grid-template-columns: 1fr;
+        }
+        .header h1 {
+          font-size: 2.5rem;
+        }
+      }
+
+    </style>
   <script type="importmap">
 {
   "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.1.1/",
-    "react": "https://aistudiocdn.com/react@^19.1.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/"
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.21.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.3"
   }
 }
 </script>
 </head>
-  <body class="bg-brand-cream font-sans">
+  <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>
